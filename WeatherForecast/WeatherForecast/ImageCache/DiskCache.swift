@@ -15,10 +15,15 @@ final class DiskCache: ImageCachable {
     
     init(countLimit: Int = 50) {
         self.countLimit = countLimit
-        self.directoryURL = try! fileManager.url(for: .cachesDirectory,
-                                                in: .userDomainMask,
-                                                appropriateFor: nil,
-                                                   create: true)
+     
+        if let url = try? fileManager.url(for: .cachesDirectory,
+                                          in: .userDomainMask,
+                                          appropriateFor: nil,
+                                          create: true) {
+            directoryURL = url
+        } else {
+            directoryURL = URL(fileURLWithPath: "")
+        }
     }
     
     private func cacheFileURL(for key: String) -> URL {
@@ -41,19 +46,15 @@ final class DiskCache: ImageCachable {
         }
     }
     
-    func store(for key: String, image: UIImage) {
+    func store(for key: String, image: UIImage) throws {
         guard let data = image.jpegData(compressionQuality: 0.5) else { return }
         let fileURL = cacheFileURL(for: key)
         
         if countStoredCaches() >= countLimit {
             removeOldCache()
         }
-        
-        do {
-            try data.write(to: fileURL)
-        } catch {
-            print("Error writing image to disk: \(error)")
-        }
+
+        try data.write(to: fileURL)
     }
     
     private func countStoredCaches() -> Int {

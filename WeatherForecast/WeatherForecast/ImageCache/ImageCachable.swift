@@ -9,5 +9,5 @@ import UIKit
 
 protocol ImageCachable {
     func value(for key: String) -> UIImage?
-    func store(for key: String, image: UIImage)
+    func store(for key: String, image: UIImage) throws
 }

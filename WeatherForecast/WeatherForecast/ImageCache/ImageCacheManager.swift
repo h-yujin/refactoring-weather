@@ -15,13 +15,17 @@ enum CacheOption {
 }
 
 actor ImageCacheManager {
-  
-    static let shared = ImageCacheManager()
-    private let memoryCache: MemoryCache = MemoryCache()
-    private let diskCache: DiskCache = DiskCache()
+    
+    static let shared = ImageCacheManager(memoryCache: MemoryCache(), diskCache: DiskCache())
+    private let memoryCache: ImageCachable
+    private var diskCache: ImageCachable
     private var option: CacheOption = .both
     
-    init(_ option: CacheOption = .both) {
+    init(memoryCache: ImageCachable, 
+         diskCache: ImageCachable,
+         _ option: CacheOption = .both) {
+        self.memoryCache = memoryCache
+        self.diskCache = diskCache
         self.option = option
     }
     
@@ -48,13 +52,22 @@ actor ImageCacheManager {
     
     func storeMemoryCache(for key: String, image: UIImage) {
         if option == .both || option == .onlyMemory {
-            memoryCache.store(for: key, image: image)
+            do {
+                try memoryCache.store(for: key, image: image)
+            } catch {
+                print("Error writing image to disk: \(error)")
+            }
         }
     }
     
     func storeDiskCache(for key: String, image: UIImage) {
         if option == .both || option == .onlyDisk {
-            diskCache.store(for: key, image: image)
+            
+            do {
+                try diskCache.store(for: key, image: image)
+            } catch {
+                print("Error writing image to disk: \(error)")
+            }
         }
     }
     

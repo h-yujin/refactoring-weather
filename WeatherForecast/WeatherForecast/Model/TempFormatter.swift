@@ -18,19 +18,28 @@ struct TempFormatter {
     }
     
     func temperatureFormat() -> String {
-        return "\(info.main.temp)\(tempUnit.expression)"
+        return String(format: "%0.2f%@", arguments: [celsiusFahrenheitConvert(temp: info.main.temp), tempUnit.expression])
     }
     
     func feelsLikeFormat() -> String {
-        return "\(info.main.feelsLike)\(tempUnit.expression)"
+        return String(format: "%0.2f%@", arguments: [celsiusFahrenheitConvert(temp: info.main.feelsLike), tempUnit.expression])
     }
     
     func maximumTemperatureFormat() -> String {
-        return "\(info.main.tempMax)\(tempUnit.expression)"
+        return String(format: "%0.2f%@", arguments: [celsiusFahrenheitConvert(temp: info.main.tempMax), tempUnit.expression])
     }
     
     func minimumTemperatureFormat() -> String {
-        return "\(info.main.tempMin)\(tempUnit.expression)"
+        return String(format: "%0.2f%@", arguments: [celsiusFahrenheitConvert(temp: info.main.tempMin), tempUnit.expression])
     }
     
+    
+    private func celsiusFahrenheitConvert(temp: Double) -> Double {
+        var convertValue = temp
+        if tempUnit == .imperial {
+            convertValue = (temp * 1.8) + 32
+        }
+        
+        return convertValue
+    }
 }
