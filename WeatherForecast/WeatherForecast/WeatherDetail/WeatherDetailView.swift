@@ -9,16 +9,16 @@ import UIKit
 
 final class WeatherDetailView: UIView {
     private let iconImageView: UIImageView = UIImageView()
-    private let weatherGroupLabel: UILabel = UILabel()
-    private let weatherDescriptionLabel: UILabel = UILabel()
-    private let temperatureLabel: UILabel = UILabel()
-    private let feelsLikeLabel: UILabel = UILabel()
-    private let maximumTemperatureLabel: UILabel = UILabel()
-    private let minimumTemperatureLabel: UILabel = UILabel()
-    private let popLabel: UILabel = UILabel()
-    private let humidityLabel: UILabel = UILabel()
-    private let sunriseTimeLabel: UILabel = UILabel()
-    private let sunsetTimeLabel: UILabel = UILabel()
+    private let weatherGroupLabel: UILabel = WeatherDetailLabel()
+    private let weatherDescriptionLabel: UILabel = WeatherDetailLabel()
+    private let temperatureLabel: UILabel = WeatherDetailLabel()
+    private let feelsLikeLabel: UILabel = WeatherDetailLabel()
+    private let maximumTemperatureLabel: UILabel = WeatherDetailLabel()
+    private let minimumTemperatureLabel: UILabel = WeatherDetailLabel()
+    private let popLabel: UILabel = WeatherDetailLabel()
+    private let humidityLabel: UILabel = WeatherDetailLabel()
+    private let sunriseTimeLabel: UILabel = WeatherDetailLabel()
+    private let sunsetTimeLabel: UILabel = WeatherDetailLabel()
     private let spacingView: UIView = UIView()
     
     private let listInfo: WeatherForecastInfo?
@@ -55,16 +55,7 @@ final class WeatherDetailView: UIView {
             sunsetTimeLabel,
             spacingView
         ])
-                
-        mainStackView.arrangedSubviews.forEach { subview in
-            guard let subview: UILabel = subview as? UILabel else { return }
-            subview.textColor = .black
-            subview.backgroundColor = .clear
-            subview.numberOfLines = 1
-            subview.textAlignment = .center
-            subview.font = .preferredFont(forTextStyle: .body)
-        }
-        
+
         weatherGroupLabel.font = .preferredFont(forTextStyle: .largeTitle)
         weatherDescriptionLabel.font = .preferredFont(forTextStyle: .largeTitle)
         
