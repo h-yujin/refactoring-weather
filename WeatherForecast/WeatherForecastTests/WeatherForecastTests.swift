@@ -48,28 +48,29 @@ final class TempFormatterTests: XCTestCase {
     }
 
     func test_temperatureFormat() {
-        let formatter: TempFormatter = .init()
+         let mainInfo: MainInfo = MainInfo(temp: 5.01,
+                                           feelsLike: 3.55,
+                                           tempMin: 5.01,
+                                           tempMax: 6.24,
+                                           pressure: 1023.0,
+                                           seaLevel: 1023.0,
+                                           grndLevel: 1016.0,
+                                           humidity: 87.0,
+                                           pop: 0.0)
+         let weather: Weather = Weather(id: 804,
+                                        main: "Clouds",
+                                        description: "overcast clouds",
+                                        icon: "04d")
+         let info: WeatherForecastInfo = WeatherForecastInfo(dt: TimeInterval(),
+                                                             main: mainInfo,
+                                                             weather: weather,
+                                                             dtTxt: "2024-01-18 06:00:00")
+         let tempUnit: TempUnit = .metric
+         
+         let formatter: TempFormatter = .init(info: info, tempUnit: tempUnit)
      
-        let mainInfo: MainInfo = MainInfo(temp: 5.01,
-                                          feelsLike: 3.55,
-                                          tempMin: 5.01,
-                                          tempMax: 6.24,
-                                          pressure: 1023.0,
-                                          seaLevel: 1023.0,
-                                          grndLevel: 1016.0,
-                                          humidity: 87.0,
-                                          pop: 0.0)
-        let weather: Weather = Weather(id: 804,
-                                       main: "Clouds",
-                                       description: "overcast clouds",
-                                       icon: "04d")
-        let info: WeatherForecastInfo = WeatherForecastInfo(dt: TimeInterval(),
-                                                            main: mainInfo,
-                                                            weather: weather,
-                                                            dtTxt: "2024-01-18 06:00:00")
-        let tempUnit: TempUnit = .metric
-        let formatString = formatter.temperatureFormat(info: info,
-                                                       tempUnit: tempUnit)
+       
+        let formatString = formatter.temperatureFormat()
          
          XCTAssertEqual(formatString, "5.01℃")
     }
