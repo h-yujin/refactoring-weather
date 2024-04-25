@@ -6,7 +6,7 @@
 
 import UIKit
 
-class WeatherTableViewCell: UITableViewCell {
+final class WeatherTableViewCell: UITableViewCell {
     static let reuseIdentifier = String(describing: WeatherTableViewCell.self)
     
     var weatherIcon: UIImageView!
@@ -32,11 +32,11 @@ class WeatherTableViewCell: UITableViewCell {
     
     private func layViews() {
         weatherIcon = UIImageView()
-        dateLabel = UILabel()
-        temperatureLabel = UILabel()
-        weatherLabel = UILabel()
-        let dashLabel: UILabel = UILabel()
-        descriptionLabel = UILabel()
+        dateLabel = WeatherTableViewLabel()
+        temperatureLabel = WeatherTableViewLabel()
+        weatherLabel = WeatherTableViewLabel()
+        let dashLabel: UILabel = WeatherTableViewLabel()
+        descriptionLabel = WeatherTableViewLabel()
         
         let labels: [UILabel] = [dateLabel, temperatureLabel, weatherLabel, dashLabel, descriptionLabel]
         
@@ -121,4 +121,20 @@ class WeatherTableViewCell: UITableViewCell {
             weatherIcon.image = await ImageLoader.loadImage(for: urlString)
         }
     }
+}
+
+
+
+final class WeatherTableViewLabel: UILabel {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        textColor = .black
+        font = .preferredFont(forTextStyle: .body)
+        numberOfLines = 1
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }
