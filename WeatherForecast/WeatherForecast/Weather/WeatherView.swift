@@ -9,7 +9,7 @@ import UIKit
 
 final class WeatherView: UIView {
     protocol Delegate: AnyObject {
-        func presentWeatherDetail(weatherForecastInfo: WeatherForecastInfo, cityInfo: City)
+        func didSelectRowAt(weatherForecastInfo: WeatherForecastInfo, cityInfo: City)
     }
     
     private let tableView: UITableView = {
@@ -99,7 +99,7 @@ extension WeatherView: UITableViewDelegate {
             return
         }
         
-        delegate?.presentWeatherDetail(weatherForecastInfo: weatherForecastInfo,
+        delegate?.didSelectRowAt(weatherForecastInfo: weatherForecastInfo,
                                       cityInfo: cityInfo)
     }
 }
