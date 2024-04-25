@@ -7,9 +7,8 @@
 import UIKit
 
 final class WeatherDetailViewController: UIViewController {
-
-    private let weatherForecastInfo: WeatherForecastInfo
-    private let cityInfo: City
+    
+    let viewModel: WeatherDetailViewModel
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,14 +16,14 @@ final class WeatherDetailViewController: UIViewController {
     }
     
     override func loadView() {
-        view = WeatherDetailView(weatherForecastInfo: weatherForecastInfo,
-                                 cityInfo: cityInfo)
+        bindingView()
+        viewModel.process(.loadView)
     }
     
     init(weatherForecastInfo: WeatherForecastInfo,
          cityInfo: City) {
-        self.weatherForecastInfo = weatherForecastInfo
-        self.cityInfo = cityInfo
+        viewModel = WeatherDetailViewModel(weatherForecastInfo: weatherForecastInfo,
+                                           cityInfo: cityInfo)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,8 +33,10 @@ final class WeatherDetailViewController: UIViewController {
     
     private func initialSetUp() {
         view.backgroundColor = .white
-
-        let date: Date = Date(timeIntervalSince1970: weatherForecastInfo.dt)
-        navigationItem.title = date.toWeatherDateString
+    }
+    
+    private func bindingView() {
+        view = viewModel.view
+        navigationItem.title = viewModel.weatherDateString
     }
 }
